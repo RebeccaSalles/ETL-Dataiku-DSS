@@ -1,0 +1,1529 @@
+{
+  "columnsSelection": {
+    "mode": "ALL"
+  },
+  "explorationSampling": {
+    "_refreshTrigger": 1,
+    "selection": {
+      "filter": {
+        "distinct": false,
+        "enabled": false
+      },
+      "latestPartitionsN": 1,
+      "maxRecords": 10000,
+      "ordering": {
+        "rules": [],
+        "enabled": false
+      },
+      "withinFirstN": -1,
+      "partitionSelectionMethod": "ALL",
+      "maxStoredBytes": 104857600,
+      "targetRatio": 0.02,
+      "maxReadUncompressedBytes": -1,
+      "samplingMethod": "RANDOM_FIXED_NB_EXACT"
+    },
+    "autoRefreshSample": false
+  },
+  "explorationFilters": [],
+  "origin": "PREPARE_RECIPE",
+  "exploreUIParams": {
+    "autoRefresh": true
+  },
+  "steps": [
+    {
+      "preview": false,
+      "name": "Tratando dados inválidos",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(TIPOBITO!\u003d1 \u0026\u0026 TIPOBITO!\u003d2,9,TIPOBITO)",
+            "column": "TIPOBITO"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(SEXO!\u003d0 \u0026\u0026 SEXO!\u003d1 \u0026\u0026 SEXO!\u003d2,0,SEXO)",
+            "column": "SEXO"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(RACACOR!\u003d1 \u0026\u0026 RACACOR!\u003d2 \u0026\u0026 RACACOR!\u003d3 \u0026\u0026 RACACOR!\u003d4 \u0026\u0026 RACACOR!\u003d5,9,RACACOR)",
+            "column": "RACACOR"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(ESTCIV!\u003d1 \u0026\u0026 ESTCIV!\u003d2 \u0026\u0026 ESTCIV!\u003d3 \u0026\u0026 ESTCIV!\u003d4 \u0026\u0026 ESTCIV!\u003d9,9,ESTCIV)",
+            "column": "ESTCIV"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(ESC!\u003d1 \u0026\u0026 ESC!\u003d2 \u0026\u0026 ESC!\u003d3 \u0026\u0026 ESC!\u003d4 \u0026\u0026 ESC!\u003d5 \u0026\u0026 ESC!\u003d9,9,ESC)",
+            "column": "ESC"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(LOCOCOR!\u003d1 \u0026\u0026 LOCOCOR!\u003d2 \u0026\u0026 LOCOCOR!\u003d3 \u0026\u0026 LOCOCOR!\u003d4 \u0026\u0026 LOCOCOR!\u003d5 \u0026\u0026 LOCOCOR!\u003d9,9,LOCOCOR)",
+            "column": "LOCOCOR"
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo os dados",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_tipo_obito",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "óbito fetal"
+              },
+              {
+                "from": "2",
+                "to": "óbito não fetal"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "TIPOBITO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_sexo",
+            "mapping": [
+              {
+                "from": "0",
+                "to": "Ignorado"
+              },
+              {
+                "from": "1",
+                "to": "Masculino"
+              },
+              {
+                "from": "2",
+                "to": "Feminino"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "SEXO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_raca_cor",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Branca"
+              },
+              {
+                "from": "2",
+                "to": "Preta"
+              },
+              {
+                "from": "3",
+                "to": "Amarela"
+              },
+              {
+                "from": "4",
+                "to": "Parda"
+              },
+              {
+                "from": "5",
+                "to": "Indígena"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "RACACOR"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_est_civil",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Solteiro"
+              },
+              {
+                "from": "2",
+                "to": "Casado"
+              },
+              {
+                "from": "3",
+                "to": "Viúvo"
+              },
+              {
+                "from": "4",
+                "to": "Separado Judic./Divorciado"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "ESTCIV"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_escol",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Nenhuma"
+              },
+              {
+                "from": "2",
+                "to": "1 a 3 anos"
+              },
+              {
+                "from": "3",
+                "to": "4 a 7 anos"
+              },
+              {
+                "from": "4",
+                "to": "8 a 11 anos"
+              },
+              {
+                "from": "5",
+                "to": "12 e mais"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "ESC"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_loc_ocor",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Hospital"
+              },
+              {
+                "from": "2",
+                "to": "Outro Estab. Saúde"
+              },
+              {
+                "from": "3",
+                "to": "Domicílio"
+              },
+              {
+                "from": "4",
+                "to": "Via Pública"
+              },
+              {
+                "from": "5",
+                "to": "Outros"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "LOCOCOR"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_escol_mae",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Nenhuma"
+              },
+              {
+                "from": "2",
+                "to": "1 a 3 anos"
+              },
+              {
+                "from": "3",
+                "to": "4 a 7 anos"
+              },
+              {
+                "from": "4",
+                "to": "8 a 11 anos"
+              },
+              {
+                "from": "5",
+                "to": "12 e mais"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "ESCMAE"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_gravidez",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Única"
+              },
+              {
+                "from": "2",
+                "to": "Dupla"
+              },
+              {
+                "from": "3",
+                "to": "Tripla ou mais"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "GRAVIDEZ"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_gestacao",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Menos de 22 semanas"
+              },
+              {
+                "from": "2",
+                "to": "22 a 27 semanas"
+              },
+              {
+                "from": "3",
+                "to": "28 a 31 semanas"
+              },
+              {
+                "from": "4",
+                "to": "32 a 36 semanas"
+              },
+              {
+                "from": "5",
+                "to": "37 a 41 semanas"
+              },
+              {
+                "from": "6",
+                "to": "42 semanas e mais"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "GESTACAO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_parto",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Vaginal"
+              },
+              {
+                "from": "2",
+                "to": "Cesáreo"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "PARTO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_obito_parto",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Antes"
+              },
+              {
+                "from": "2",
+                "to": "Durante"
+              },
+              {
+                "from": "3",
+                "to": "Depois"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "OBITOPARTO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_obito_grav",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim"
+              },
+              {
+                "from": "2",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "OBITOGRAV"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_obito_puerp",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim, até 42 dias"
+              },
+              {
+                "from": "2",
+                "to": "Sim, de 43 dias a 01 ano"
+              },
+              {
+                "from": "3",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "OBITOPUERP"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_assist_med",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Com assistência"
+              },
+              {
+                "from": "2",
+                "to": "Sem assistência"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "ASSISTMED"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_exame",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim"
+              },
+              {
+                "from": "2",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "EXAME"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_cirurgia",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim"
+              },
+              {
+                "from": "2",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "CIRURGIA"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_necropsia",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim"
+              },
+              {
+                "from": "2",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "NECROPSIA"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_circ_obito",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Acidente"
+              },
+              {
+                "from": "2",
+                "to": "Suicídio"
+              },
+              {
+                "from": "3",
+                "to": "Homicídio"
+              },
+              {
+                "from": "4",
+                "to": "Outros"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "CIRCOBITO"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_acid_trab",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Sim"
+              },
+              {
+                "from": "2",
+                "to": "Não"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "ACIDTRAB"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "def_fonte",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "Boletim de ocorrência"
+              },
+              {
+                "from": "2",
+                "to": "Hospital"
+              },
+              {
+                "from": "3",
+                "to": "Família"
+              },
+              {
+                "from": "4",
+                "to": "Outra"
+              },
+              {
+                "from": "9",
+                "to": "Ignorado"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "FONTE"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "stopAfterFirstMatch": false,
+            "matching": "FULL_STRING"
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo com dados de múnicipio",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnCopier",
+          "params": {
+            "outputColumn": "cod_mun_res",
+            "inputColumn": "CODMUNRES"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "StringTransformer",
+          "params": {
+            "mode": "TRUNCATE",
+            "columns": [
+              "cod_mun_res"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "truncate_limit": 6
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "MUNCOD",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "res_",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "cod_mun_res",
+            "copyColumns": [
+              "MUNCOD",
+              "MUNNOME",
+              "MUNNOMEX",
+              "AMAZONIA",
+              "FRONTEIRA",
+              "CAPITAL",
+              "UFCOD",
+              "MSAUDCOD",
+              "RSAUDCOD",
+              "CSAUDCOD",
+              "LATITUDE",
+              "LONGITUDE",
+              "ALTITUDE",
+              "AREA",
+              "codigo_adotado"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "municipios",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnCopier",
+          "params": {
+            "outputColumn": "cod_mun_ocor",
+            "inputColumn": "CODMUNOCOR"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "StringTransformer",
+          "params": {
+            "mode": "TRUNCATE",
+            "columns": [
+              "cod_mun_ocor"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "truncate_limit": 6
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "MUNCOD",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "ocor_",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "cod_mun_ocor",
+            "copyColumns": [
+              "MUNCOD",
+              "MUNNOME",
+              "MUNNOMEX",
+              "AMAZONIA",
+              "FRONTEIRA",
+              "CAPITAL",
+              "UFCOD",
+              "MSAUDCOD",
+              "RSAUDCOD",
+              "CSAUDCOD",
+              "LATITUDE",
+              "LONGITUDE",
+              "ALTITUDE",
+              "AREA",
+              "codigo_adotado"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "municipios",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo com dados de UF",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "CODIGO",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "res_",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "res_UFCOD",
+            "copyColumns": [
+              "SIGLA_UF",
+              "CODIGO",
+              "DESCRICAO"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "ufs",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "CODIGO",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "ocor_",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "ocor_UFCOD",
+            "copyColumns": [
+              "SIGLA_UF",
+              "CODIGO",
+              "DESCRICAO"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "ufs",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnRenamer",
+          "params": {
+            "renamings": [
+              {
+                "from": "res_CODIGO",
+                "to": "res_CODIGO_UF"
+              },
+              {
+                "from": "res_DESCRICAO",
+                "to": "res_NOME_UF"
+              },
+              {
+                "from": "ocor_CODIGO",
+                "to": "ocor_CODIGO_UF"
+              },
+              {
+                "from": "ocor_DESCRICAO",
+                "to": "ocor_NOME_UF"
+              }
+            ]
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo com dados de CID10",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnCopier",
+          "params": {
+            "outputColumn": "CAUSABAS_tmp",
+            "inputColumn": "CAUSABAS"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "StringTransformer",
+          "params": {
+            "mode": "TRUNCATE",
+            "columns": [
+              "CAUSABAS_tmp"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "truncate_limit": 3
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "codigo",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "CAUSABAS_tmp",
+            "copyColumns": [
+              "descricao_breve"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "cid10_capitulos",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnRenamer",
+          "params": {
+            "renamings": [
+              {
+                "from": "descricao_breve",
+                "to": "causabas_capitulo"
+              }
+            ]
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "codigo",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "CAUSABAS_tmp",
+            "copyColumns": [
+              "descricao_breve"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "cid10_grupos",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnRenamer",
+          "params": {
+            "renamings": [
+              {
+                "from": "descricao_breve",
+                "to": "causabas_grupo"
+              }
+            ]
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "CAT",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "CAUSABAS_tmp",
+            "copyColumns": [
+              "DESCRABREV"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "cid10_categorias",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnRenamer",
+          "params": {
+            "renamings": [
+              {
+                "from": "DESCRABREV",
+                "to": "causabas_categoria"
+              }
+            ]
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnCopier",
+          "params": {
+            "outputColumn": "CAUSABAS_tmp",
+            "inputColumn": "CAUSABAS"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "StringTransformer",
+          "params": {
+            "mode": "TRUNCATE",
+            "columns": [
+              "CAUSABAS_tmp"
+            ],
+            "appliesTo": "SINGLE_COLUMN",
+            "truncate_limit": 4
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "MemoryEquiJoiner",
+          "params": {
+            "rightCol": "SUBCAT",
+            "forceRawLevenshteinEngine": false,
+            "copyPrefix": "",
+            "sortAlphabetically": false,
+            "language": "english",
+            "leftCol": "CAUSABAS_tmp",
+            "copyColumns": [
+              "DESCRABREV"
+            ],
+            "normalize": false,
+            "maxLevenshtein": 1,
+            "clearStopWords": false,
+            "fuzzy": false,
+            "rightInput": "cid10_subcategorias",
+            "stem": false
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnRenamer",
+          "params": {
+            "renamings": [
+              {
+                "from": "DESCRABREV",
+                "to": "causabas_subcategoria"
+              }
+            ]
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Removendo colunas desnecessárias",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnsSelector",
+          "params": {
+            "columns": [
+              "CAUSABAS_tmp",
+              "cod_mun_res",
+              "cod_mun_ocor",
+              "ocor_MUNCOD",
+              "res_MUNCOD",
+              "ocor_UFCOD",
+              "res_UFCOD"
+            ],
+            "keep": false,
+            "appliesTo": "COLUMNS"
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo com dados de datas",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "DateParser",
+          "params": {
+            "outCol": "data_nasc",
+            "formats": [
+              "ddMMyyyy",
+              "0000yyyy"
+            ],
+            "columns": [
+              "DTNASC"
+            ],
+            "timezone_id": "UTC",
+            "appliesTo": "SINGLE_COLUMN",
+            "lang": "auto"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "DateComponentsExtractor",
+          "params": {
+            "outYearColumn": "ano_nasc",
+            "column": "data_nasc",
+            "outDayOfWeekColumn": "dia_semana_nasc",
+            "timezone_id": "UTC"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "DateParser",
+          "params": {
+            "outCol": "data_obito",
+            "formats": [
+              "ddMMyyyy"
+            ],
+            "columns": [
+              "DTOBITO"
+            ],
+            "timezone_id": "UTC",
+            "appliesTo": "SINGLE_COLUMN",
+            "lang": "auto"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "DateComponentsExtractor",
+          "params": {
+            "outYearColumn": "ano_obito",
+            "column": "data_obito",
+            "outDayOfWeekColumn": "dia_semana_obito",
+            "timezone_id": "UTC"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "FindReplace",
+          "params": {
+            "output": "",
+            "mapping": [
+              {
+                "from": "1",
+                "to": "dom"
+              },
+              {
+                "from": "2",
+                "to": "seg"
+              },
+              {
+                "from": "3",
+                "to": "ter"
+              },
+              {
+                "from": "4",
+                "to": "qua"
+              },
+              {
+                "from": "5",
+                "to": "qui"
+              },
+              {
+                "from": "6",
+                "to": "sex"
+              },
+              {
+                "from": "7",
+                "to": "sáb"
+              }
+            ],
+            "normalization": "EXACT",
+            "columns": [
+              "dia_semana_nasc",
+              "dia_semana_obito"
+            ],
+            "appliesTo": "COLUMNS",
+            "stopAfterFirstMatch": false,
+            "matching": "SUBSTRING"
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    },
+    {
+      "preview": false,
+      "name": "Enriquecendo com dados de idade",
+      "metaType": "GROUP",
+      "disabled": false,
+      "steps": [
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "RegexpExtractor",
+          "params": {
+            "found_col": false,
+            "extractAllOccurrences": true,
+            "prefix": "IDADE_",
+            "column": "IDADE",
+            "pattern": "([0-9])([0-9A-Z]*)"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ArrayExtractProcessor",
+          "params": {
+            "mode": "INDEX",
+            "input": "IDADE_1",
+            "index": 0,
+            "end": 0,
+            "begin": 0
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ArrayExtractProcessor",
+          "params": {
+            "mode": "INDEX",
+            "input": "IDADE_2",
+            "index": 0,
+            "end": 0,
+            "begin": 0
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "CreateColumnWithGREL",
+          "params": {
+            "expression": "if(IDADE_1\u003e\u003d0 \u0026\u0026 IDADE_1\u003c4,0,if(IDADE_1\u003e\u003d4 \u0026\u0026 IDADE_1\u003c\u003d5,(IDADE_1-4)*100+IDADE_2,null))",
+            "column": "idade_obito"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "ColumnsSelector",
+          "params": {
+            "columns": [
+              "IDADE_1",
+              "IDADE_2"
+            ],
+            "keep": false,
+            "appliesTo": "COLUMNS"
+          },
+          "alwaysShowComment": false
+        },
+        {
+          "preview": false,
+          "metaType": "PROCESSOR",
+          "disabled": false,
+          "type": "DateDifference",
+          "params": {
+            "output": "idade_obito_calculado",
+            "input2": "data_obito",
+            "outputUnit": "YEARS",
+            "input1": "data_nasc",
+            "compareTo": "COLUMN",
+            "reverse": false
+          },
+          "alwaysShowComment": false
+        }
+      ],
+      "alwaysShowComment": false
+    }
+  ],
+  "maxProcessedMemTableBytes": -1,
+  "previewMode": "ALL_ROWS",
+  "vizSampling": {
+    "_refreshTrigger": 0,
+    "autoRefreshSample": false
+  },
+  "analysisColumnData": {},
+  "sorting": [],
+  "globalSearchQuery": "",
+  "coloring": {
+    "scheme": "MEANING_AND_STATUS",
+    "individualColumns": [],
+    "valueColoringMode": "HASH"
+  }
+}

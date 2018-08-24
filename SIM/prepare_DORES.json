@@ -1,0 +1,170 @@
+{
+  "type": "shaker",
+  "neverRecomputeExistingPartitions": false,
+  "optionalDependencies": false,
+  "params": {
+    "engineType": "DSS",
+    "engineParams": {
+      "spark": {
+        "pipelineAllowStart": true,
+        "pipelineAllowMerge": true,
+        "sparkConfig": {
+          "inheritConf": "default",
+          "conf": []
+        },
+        "readParams": {
+          "map": {
+            "DORJ2000": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cadmun_desdobrados": {
+              "repartition": 10,
+              "cache": false
+            },
+            "tabuf": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_tabela_capitulos": {
+              "repartition": 10,
+              "cache": false
+            },
+            "CID_10_CATEGORIAS": {
+              "repartition": 10,
+              "cache": false
+            },
+            "CID_10_SUBCATEGORIAS": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_tabela_grupos": {
+              "repartition": 10,
+              "cache": false
+            },
+            "DORJ2000-2014_stacked": {
+              "repartition": 10,
+              "cache": false
+            },
+            "DORJ2000-2014_from_DBC": {
+              "repartition": 10,
+              "cache": false
+            },
+            "DORES_from_dbc": {
+              "repartition": 10,
+              "cache": false
+            },
+            "municipio": {
+              "repartition": 10,
+              "cache": false
+            },
+            "DORES": {
+              "repartition": 10,
+              "cache": false
+            },
+            "municipios": {
+              "repartition": 10,
+              "cache": false
+            },
+            "ufs": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_capitulos": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_grupos": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_categorias": {
+              "repartition": 10,
+              "cache": false
+            },
+            "cid10_subcategorias": {
+              "repartition": 10,
+              "cache": false
+            }
+          }
+        },
+        "useGlobalMetastore": false
+      },
+      "hadoopConfigKeys": [],
+      "maxThreads": 12
+    }
+  },
+  "customMeta": {
+    "kv": {}
+  },
+  "redispatchPartitioning": false,
+  "maxRunningActivities": 0,
+  "inputs": {
+    "main": {
+      "items": [
+        {
+          "ref": "DORES",
+          "deps": []
+        }
+      ]
+    },
+    "scriptDeps": {
+      "items": [
+        {
+          "ref": "municipios",
+          "deps": []
+        },
+        {
+          "ref": "ufs",
+          "deps": []
+        },
+        {
+          "ref": "cid10_capitulos",
+          "deps": []
+        },
+        {
+          "ref": "cid10_grupos",
+          "deps": []
+        },
+        {
+          "ref": "cid10_categorias",
+          "deps": []
+        },
+        {
+          "ref": "cid10_subcategorias",
+          "deps": []
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "main": {
+      "items": [
+        {
+          "ref": "DORES_preparados",
+          "appendMode": false
+        }
+      ]
+    }
+  },
+  "versionTag": {
+    "versionNumber": 24,
+    "lastModifiedBy": {
+      "login": "admin"
+    },
+    "lastModifiedOn": 1534945121003
+  },
+  "creationTag": {
+    "versionNumber": 0,
+    "lastModifiedBy": {
+      "login": "admin"
+    },
+    "lastModifiedOn": 1531414676517
+  },
+  "tags": [
+    "transform_recipe"
+  ],
+  "checklists": {
+    "checklists": []
+  }
+}
